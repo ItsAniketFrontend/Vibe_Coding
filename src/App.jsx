@@ -14,6 +14,7 @@ import Contact from './pages/Contact';
 import BlogPage from './pages/BlogPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 import ScrollToTop from './components/ScrollToTop';
+import FloatingCTA from './components/FloatingCTA';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <FloatingCTA />
       </div>
     </Router>
   );
