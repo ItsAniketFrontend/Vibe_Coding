@@ -6,6 +6,7 @@ import ManageProperties from './ManageProperties';
 import ManageSEO from './ManageSEO';
 import ManageEnquiries from './ManageEnquiries';
 import ManageBlogs from './ManageBlogs';
+import ManageLandingPages from './ManageLandingPages';
 import AdminLogin from './AdminLogin';
 
 export default function AdminDashboard() {
@@ -34,8 +35,8 @@ export default function AdminDashboard() {
     { path: '/admin/properties', name: 'Properties', icon: Building },
     { path: '/admin/enquiries', name: 'Enquiries', icon: Mail },
     { path: '/admin/blogs', name: 'Blogs', icon: FileText },
-    { path: '/admin/seo', name: 'SEO & Content', icon: Globe },
-    { path: '/admin/settings', name: 'Settings', icon: Settings },
+    { path: '/admin/landing-pages', name: 'Landing Pages', icon: Globe },
+    { path: '/admin/seo', name: 'Core SEO', icon: Settings },
   ];
 
   return (
@@ -101,6 +102,7 @@ export default function AdminDashboard() {
           <Route path="/enquiries" element={<ManageEnquiries />} />
           <Route path="/blogs" element={<ManageBlogs />} />
           <Route path="/seo" element={<ManageSEO />} />
+          <Route path="/landing-pages" element={<ManageLandingPages />} />
           <Route path="*" element={<div style={{ textAlign: 'center', marginTop: '5rem', color: '#6b7280' }}>Page under construction</div>} />
         </Routes>
       </main>

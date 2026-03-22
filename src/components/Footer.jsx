@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Building2, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import Logo from './Logo';
+import { useDynamicPages } from '../context/DynamicPageContext';
 
 export default function Footer() {
+  const { dynamicPages } = useDynamicPages();
+
   return (
     <footer style={{ backgroundColor: '#1a1a2e', paddingTop: '4rem', paddingBottom: '2rem', color: 'rgba(255,255,255,0.7)' }}>
       <div className="container">
@@ -27,6 +30,14 @@ export default function Footer() {
             <h4 style={{ fontSize: '1rem', fontWeight: 600, color: '#fff', marginBottom: '0.5rem' }}>Quick Links</h4>
             {['Home', 'Properties', 'Blogs', 'About Us', 'Contact'].map(name => (
               <Link key={name} to={name === 'Home' ? '/' : `/${name.toLowerCase().replace(/\s/g, '-')}`} style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', transition: 'color 0.2s' }}>{name}</Link>
+            ))}
+          </div>
+
+          {/* Top Searches - dynamic SEO landing pages */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <h4 style={{ fontSize: '1rem', fontWeight: 600, color: '#fff', marginBottom: '0.5rem' }}>Top Searches</h4>
+            {dynamicPages.map(page => (
+              <Link key={page.id} to={`/${page.city.toLowerCase()}/${page.slug.toLowerCase()}`} style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', transition: 'color 0.2s' }}>{page.navLabel || page.title}</Link>
             ))}
           </div>
 

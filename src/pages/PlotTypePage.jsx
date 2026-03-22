@@ -1,15 +1,25 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { useProperties } from '../context/PropertyContext';
+import { useDynamicPages } from '../context/DynamicPageContext';
 import PropertyCard from '../components/PropertyCard';
 import Breadcrumbs from '../components/Breadcrumbs';
 import SEOHead from '../components/SEOHead';
+import DynamicLandingPage from './DynamicLandingPage';
 import { findCityBySlug, plotTypeFromSlug, buildCityUrl, buildLocationUrl } from '../utils/slugs';
 import { MapPin, ArrowRight } from 'lucide-react';
 
 export default function PlotTypePage() {
   const { city: citySlug, plotType: typeSlug } = useParams();
   const { properties, cityLocations } = useProperties();
+  const { dynamicPages } = useDynamicPages();
   const cities = Object.keys(cityLocations);
+
+  // Check if it's a dynamic landing page first
+  const landingPage = dynamicPages.find(p => p.city.toLowerCase() === citySlug.toLowerCase() && p.slug.toLowerCase() === typeSlug.toLowerCase());
+  
+  if (landingPage) {
+    return <DynamicLandingPage page={landingPage} />;
+  }
 
   const city = findCityBySlug(citySlug, cities);
   const plotType = plotTypeFromSlug[typeSlug];
