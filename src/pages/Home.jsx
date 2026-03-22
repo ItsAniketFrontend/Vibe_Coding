@@ -214,6 +214,60 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Cities Section ── */}
+      <section style={{ padding: '4rem 0', backgroundColor: '#fff', borderTop: '1px solid #e5e7eb' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', maxWidth: '42rem', margin: '0 auto 3rem' }}>
+            <span style={{ color: '#A03333', fontWeight: 600, textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.06em', marginBottom: '0.4rem', display: 'block' }}>Explore by Location</span>
+            <h2 style={{ fontSize: 'clamp(1.4rem, 3.5vw, 2rem)', fontWeight: 700, color: '#1a1a2e', marginBottom: '0.75rem' }}>Find Properties By City</h2>
+            <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>Discover premium plots and homes in top cities.</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {cities.map((city, idx) => (
+              <Link 
+                key={idx} 
+                to={buildCityUrl(city)} 
+                style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  backgroundColor: '#f8f9fb', 
+                  padding: '2rem 1rem', 
+                  borderRadius: '1rem', 
+                  border: '1px solid #e5e7eb', 
+                  transition: 'all 0.3s', 
+                  color: '#1a1a2e',
+                  fontWeight: 600,
+                  fontSize: '1.15rem',
+                  textDecoration: 'none',
+                  gap: '0.75rem'
+                }}
+                onMouseEnter={(e) => { 
+                  e.currentTarget.style.borderColor = '#A03333'; 
+                  e.currentTarget.style.transform = 'translateY(-0.25rem)'; 
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(160,51,51,0.1)'; 
+                  e.currentTarget.style.color = '#A03333'; 
+                  e.currentTarget.querySelector('svg').style.color = '#A03333'; 
+                }}
+                onMouseLeave={(e) => { 
+                  e.currentTarget.style.borderColor = '#e5e7eb'; 
+                  e.currentTarget.style.transform = 'translateY(0)'; 
+                  e.currentTarget.style.boxShadow = 'none'; 
+                  e.currentTarget.style.color = '#1a1a2e'; 
+                  e.currentTarget.querySelector('svg').style.color = '#1a1a2e'; 
+                }}
+              >
+                <div style={{ width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderRadius: '50%', boxShadow: '0 2px 5px rgba(0,0,0,0.05)' }}>
+                  <Building2 size={20} style={{ color: '#1a1a2e', transition: 'all 0.3s' }} />
+                </div>
+                <span>{city}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Dynamic Content Section ── */}
       {seoData?.contentSection && (
         <section style={{ padding: '4rem 0', backgroundColor: '#f8f9fb', borderTop: '1px solid #e5e7eb' }}>

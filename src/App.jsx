@@ -13,10 +13,12 @@ import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
 import BlogPage from './pages/BlogPage';
 import BlogDetailPage from './pages/BlogDetailPage';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-body)', color: 'var(--text-body)' }}>
         <Navbar />
         <main style={{ flex: 1, paddingTop: '80px' }}>
