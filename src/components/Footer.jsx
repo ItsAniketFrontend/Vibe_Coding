@@ -25,7 +25,7 @@ export default function Footer() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <h4 style={{ fontSize: '1rem', fontWeight: 600, color: '#fff', marginBottom: '0.5rem' }}>Quick Links</h4>
-            {['Home', 'Properties', 'About Us', 'Contact'].map(name => (
+            {['Home', 'Properties', 'Blogs', 'About Us', 'Contact'].map(name => (
               <Link key={name} to={name === 'Home' ? '/' : `/${name.toLowerCase().replace(/\s/g, '-')}`} style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', transition: 'color 0.2s' }}>{name}</Link>
             ))}
           </div>
