@@ -24,6 +24,9 @@ function App() {
             <Route path="/" element={<Home />} />
             {/* Old /properties filter routes maintained for backward compatibility & filtering */}
             <Route path="/properties" element={<Properties />} />
+            <Route path="/properties/:city" element={<Properties />} />
+            <Route path="/properties/:city/:location" element={<Properties />} />
+            <Route path="/properties/:city/:location/:type" element={<Properties />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/blogs" element={<BlogPage />} />
