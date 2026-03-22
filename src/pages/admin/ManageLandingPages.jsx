@@ -14,11 +14,14 @@ export default function ManageLandingPages() {
     title: '',
     content: '',
     metaTitle: '',
-    metaDescription: ''
+    metaDescription: '',
+    filterLocation: '',
+    filterPlotType: '',
+    specificPropertyIds: ''
   });
 
   const handleOpenNew = () => {
-    setFormData({ city: '', slug: '', navLabel: '', title: '', content: '', metaTitle: '', metaDescription: '' });
+    setFormData({ city: '', slug: '', navLabel: '', title: '', content: '', metaTitle: '', metaDescription: '', filterLocation: '', filterPlotType: '', specificPropertyIds: '' });
     setCurrentPage(null);
     setIsEditing(true);
   };
@@ -102,6 +105,29 @@ export default function ManageLandingPages() {
             <div>
               <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: '#374151' }}>Content (HTML/Text)</label>
               <textarea required value={formData.content} onChange={e => setFormData({...formData, content: e.target.value})} style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '0.5rem', minHeight: '200px', fontFamily: 'monospace' }} placeholder="<p>Write your HTML content here</p>" />
+            </div>
+
+            <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1.5rem', marginTop: '0.5rem' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#1a1a2e', marginBottom: '1rem' }}>Property Listing Filters (Optional)</h3>
+              <p style={{ fontSize: '0.85rem', color: '#6b7280', marginBottom: '1rem' }}>
+                If you leave these blank, all properties in the specified City will be shown. You can filter them down or specify exact properties.
+              </p>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: '#374151' }}>Filter by Location</label>
+                  <input type="text" value={formData.filterLocation} onChange={e => setFormData({...formData, filterLocation: e.target.value})} placeholder="e.g. Jagatpura" style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '0.5rem' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: '#374151' }}>Filter by Type</label>
+                  <input type="text" value={formData.filterPlotType} onChange={e => setFormData({...formData, filterPlotType: e.target.value})} placeholder="e.g. Residential Plot" style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '0.5rem' }} />
+                </div>
+              </div>
+
+              <div style={{ marginTop: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: '#374151' }}>Specific Property IDs</label>
+                <input type="text" value={formData.specificPropertyIds} onChange={e => setFormData({...formData, specificPropertyIds: e.target.value})} placeholder="e.g. 1, 4, 7 (Comma separated list of property IDs, overrides location/type filters)" style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '0.5rem', background: '#f9fafb' }} />
+              </div>
             </div>
           </div>
 
