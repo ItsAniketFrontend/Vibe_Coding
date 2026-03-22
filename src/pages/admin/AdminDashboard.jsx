@@ -1,10 +1,11 @@
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Building, Globe, Settings, LogOut, ChevronRight, Menu, X, Mail } from 'lucide-react';
+import { LayoutDashboard, Building, Globe, Settings, LogOut, ChevronRight, Menu, X, Mail, FileText } from 'lucide-react';
 import { useState } from 'react';
 import DashboardHome from './DashboardHome';
 import ManageProperties from './ManageProperties';
 import ManageSEO from './ManageSEO';
 import ManageEnquiries from './ManageEnquiries';
+import ManageBlogs from './ManageBlogs';
 import AdminLogin from './AdminLogin';
 
 export default function AdminDashboard() {
@@ -32,6 +33,7 @@ export default function AdminDashboard() {
     { path: '/admin', name: 'Overview', icon: LayoutDashboard },
     { path: '/admin/properties', name: 'Properties', icon: Building },
     { path: '/admin/enquiries', name: 'Enquiries', icon: Mail },
+    { path: '/admin/blogs', name: 'Blogs', icon: FileText },
     { path: '/admin/seo', name: 'SEO & Content', icon: Globe },
     { path: '/admin/settings', name: 'Settings', icon: Settings },
   ];
@@ -97,6 +99,7 @@ export default function AdminDashboard() {
           <Route path="/" element={<DashboardHome />} />
           <Route path="/properties" element={<ManageProperties />} />
           <Route path="/enquiries" element={<ManageEnquiries />} />
+          <Route path="/blogs" element={<ManageBlogs />} />
           <Route path="/seo" element={<ManageSEO />} />
           <Route path="*" element={<div style={{ textAlign: 'center', marginTop: '5rem', color: '#6b7280' }}>Page under construction</div>} />
         </Routes>

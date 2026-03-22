@@ -11,6 +11,8 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import NotFound from './pages/NotFound';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
+import BlogPage from './pages/BlogPage';
+import BlogDetailPage from './pages/BlogDetailPage';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route path="/properties" element={<Properties />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blogs" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogDetailPage />} />
             
             {/* New SEO Dynamic Structure */}
             {/* /jaipur */}

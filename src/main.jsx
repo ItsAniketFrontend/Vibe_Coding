@@ -4,6 +4,7 @@ import App from './App.jsx'
 import { PropertyProvider } from './context/PropertyContext.jsx'
 import { SEOProvider } from './context/SEOContext.jsx'
 import { EnquiryProvider } from './context/EnquiryContext.jsx'
+import { BlogProvider } from './context/BlogContext.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -11,7 +12,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <PropertyProvider>
       <SEOProvider>
         <EnquiryProvider>
-          <App />
+          <BlogProvider>
+            <App />
+          </BlogProvider>
         </EnquiryProvider>
       </SEOProvider>
     </PropertyProvider>
