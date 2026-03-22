@@ -8,9 +8,32 @@ export default function FloatingCTA() {
   
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.name.trim() || formData.name.length < 2) {
+      newErrors.name = 'Name must be at least 2 characters.';
+    }
+    const phoneRegex = /^\d{10}$/;
+    if (!formData.phone || !phoneRegex.test(formData.phone)) {
+      newErrors.phone = 'Please enter a valid 10-digit phone number.';
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.email && !emailRegex.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validate()) return;
+    
     addEnquiry({
       ...formData,
       type: 'CTA Button Enquiry',
@@ -29,10 +52,11 @@ export default function FloatingCTA() {
       <div style={{ position: 'fixed', bottom: '2rem', right: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem', zIndex: 9999 }}>
         {/* Enquiry Button */}
         <button 
+          className="animate-pulse-cta"
           onClick={() => setIsModalOpen(true)}
-          style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#A03333', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', cursor: 'pointer', border: 'none', transition: 'transform 0.2s' }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#A03333', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', transition: 'filter 0.2s' }}
+          onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'}
+          onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'}
           title="Send Enquiry"
         >
           <Mail size={24} />
@@ -40,12 +64,13 @@ export default function FloatingCTA() {
 
         {/* WhatsApp Button */}
         <a 
+          className="animate-pulse-cta-green"
           href="https://wa.me/919983891624" 
           target="_blank" 
           rel="noopener noreferrer"
-          style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#25D366', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', cursor: 'pointer', border: 'none', transition: 'transform 0.2s', textDecoration: 'none' }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#25D366', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', transition: 'filter 0.2s', textDecoration: 'none' }}
+          onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'}
+          onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'}
           title="WhatsApp Us"
         >
           <MessageCircle size={24} />
@@ -53,10 +78,11 @@ export default function FloatingCTA() {
 
         {/* Phone Button */}
         <a 
+          className="animate-pulse-cta-blue"
           href="tel:+919983891624"
-          style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#007BFF', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', cursor: 'pointer', border: 'none', transition: 'transform 0.2s', textDecoration: 'none' }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#007BFF', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: 'none', transition: 'filter 0.2s', textDecoration: 'none' }}
+          onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'}
+          onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'}
           title="Call Us"
         >
           <Phone size={24} />
@@ -86,19 +112,23 @@ export default function FloatingCTA() {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Full Name *</label>
-                  <input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Your Name" style={{ width: '100%', padding: '0.75rem 1rem', border: '1px solid #d1d5db', borderRadius: '0.5rem' }} required />
+                  <input type="text" value={formData.name} onChange={e => {setFormData({...formData, name: e.target.value}); if(errors.name) setErrors({...errors, name: ''});}} placeholder="Your Name" style={{ width: '100%', padding: '0.75rem 1rem', border: `1px solid ${errors.name ? 'red' : '#d1d5db'}`, borderRadius: '0.5rem' }} />
+                  {errors.name && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.name}</span>}
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Phone Number *</label>
-                  <input type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} placeholder="Your Phone Number" style={{ width: '100%', padding: '0.75rem 1rem', border: '1px solid #d1d5db', borderRadius: '0.5rem' }} required />
+                  <input type="tel" value={formData.phone} onChange={e => {setFormData({...formData, phone: e.target.value}); if(errors.phone) setErrors({...errors, phone: ''});}} placeholder="Your Phone Number" style={{ width: '100%', padding: '0.75rem 1rem', border: `1px solid ${errors.phone ? 'red' : '#d1d5db'}`, borderRadius: '0.5rem' }} />
+                  {errors.phone && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.phone}</span>}
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Email Address</label>
-                  <input type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} placeholder="Your Email Address" style={{ width: '100%', padding: '0.75rem 1rem', border: '1px solid #d1d5db', borderRadius: '0.5rem' }} />
+                  <input type="text" value={formData.email} onChange={e => {setFormData({...formData, email: e.target.value}); if(errors.email) setErrors({...errors, email: ''});}} placeholder="Your Email Address" style={{ width: '100%', padding: '0.75rem 1rem', border: `1px solid ${errors.email ? 'red' : '#d1d5db'}`, borderRadius: '0.5rem' }} />
+                  {errors.email && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.email}</span>}
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Message</label>
-                  <textarea value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} rows="3" placeholder="How can we help you?" style={{ width: '100%', padding: '0.75rem 1rem', border: '1px solid #d1d5db', borderRadius: '0.5rem', resize: 'vertical' }}></textarea>
+                  <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Message *</label>
+                  <textarea value={formData.message} onChange={e => {setFormData({...formData, message: e.target.value}); if(errors.message) setErrors({...errors, message: ''});}} rows="3" placeholder="How can we help you?" style={{ width: '100%', padding: '0.75rem 1rem', border: `1px solid ${errors.message ? 'red' : '#d1d5db'}`, borderRadius: '0.5rem', resize: 'vertical' }}></textarea>
+                  {errors.message && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.message}</span>}
                 </div>
                 <button type="submit" style={{ backgroundColor: '#A03333', color: 'white', padding: '0.75rem', borderRadius: '0.5rem', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', border: 'none', cursor: 'pointer', marginTop: '0.5rem' }}>
                   <Send size={18} /> Send Enquiry

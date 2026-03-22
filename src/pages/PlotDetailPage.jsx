@@ -15,6 +15,24 @@ export default function PlotDetailPage() {
 
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.name.trim() || formData.name.length < 2) {
+      newErrors.name = 'Name must be at least 2 characters.';
+    }
+    const phoneRegex = /^\d{10}$/;
+    if (!formData.phone || !phoneRegex.test(formData.phone)) {
+      newErrors.phone = 'Please enter a valid 10-digit phone number.';
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const city = findCityBySlug(citySlug, cities);
   const plotType = plotTypeFromSlug[typeSlug];
@@ -182,6 +200,7 @@ export default function PlotDetailPage() {
               ) : (
                 <form onSubmit={e => {
                   e.preventDefault();
+                  if (!validate()) return;
                   addEnquiry({
                     ...formData,
                     type: 'Property Viewing',
@@ -192,10 +211,22 @@ export default function PlotDetailPage() {
                   setFormData({ name: '', phone: '', email: '', message: '' });
                   setTimeout(() => setSubmitted(false), 5000);
                 }} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder="Full Name" style={{ width: '100%' }} required />
-                  <input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} placeholder="Phone Number" style={{ width: '100%' }} required />
-                  <input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} placeholder="Email Address" style={{ width: '100%' }} required />
-                  <textarea value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} placeholder="Message" rows={4} style={{ width: '100%', resize: 'none' }} defaultValue={`I'm interested in ${property.title} in ${property.location}, ${property.city}.`}></textarea>
+                  <div>
+                    <input type="text" value={formData.name} onChange={e => {setFormData({ ...formData, name: e.target.value }); if(errors.name) setErrors({...errors, name: ''});}} placeholder="Full Name" style={{ width: '100%', padding: '0.75rem', borderRadius: '0.375rem', border: `1px solid ${errors.name ? 'red' : '#d1d5db'}` }} />
+                    {errors.name && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.name}</span>}
+                  </div>
+                  <div>
+                    <input type="tel" value={formData.phone} onChange={e => {setFormData({ ...formData, phone: e.target.value }); if(errors.phone) setErrors({...errors, phone: ''});}} placeholder="Phone Number" style={{ width: '100%', padding: '0.75rem', borderRadius: '0.375rem', border: `1px solid ${errors.phone ? 'red' : '#d1d5db'}` }} />
+                    {errors.phone && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.phone}</span>}
+                  </div>
+                  <div>
+                    <input type="text" value={formData.email} onChange={e => {setFormData({ ...formData, email: e.target.value }); if(errors.email) setErrors({...errors, email: ''});}} placeholder="Email Address" style={{ width: '100%', padding: '0.75rem', borderRadius: '0.375rem', border: `1px solid ${errors.email ? 'red' : '#d1d5db'}` }} />
+                    {errors.email && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.email}</span>}
+                  </div>
+                  <div>
+                    <textarea value={formData.message} onChange={e => {setFormData({ ...formData, message: e.target.value }); if(errors.message) setErrors({...errors, message: ''});}} placeholder="Message" rows={4} style={{ width: '100%', resize: 'none', padding: '0.75rem', borderRadius: '0.375rem', border: `1px solid ${errors.message ? 'red' : '#d1d5db'}` }} defaultValue={`I'm interested in ${property.title} in ${property.location}, ${property.city}.`}></textarea>
+                    {errors.message && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.message}</span>}
+                  </div>
                   <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1rem', marginTop: '0.5rem' }}>Send Inquiry</button>
                 </form>
               )}

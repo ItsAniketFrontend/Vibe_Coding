@@ -11,9 +11,31 @@ export default function Contact() {
 
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', type: 'Buying Property', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.name.trim() || formData.name.length < 2) {
+      newErrors.name = 'Name must be at least 2 characters.';
+    }
+    const phoneRegex = /^\d{10}$/;
+    if (!formData.phone || !phoneRegex.test(formData.phone)) {
+      newErrors.phone = 'Please enter a valid 10-digit phone number.';
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validate()) return;
     addEnquiry(formData);
     setSubmitted(true);
     setFormData({ name: '', email: '', phone: '', type: 'Buying Property', message: '' });
@@ -128,18 +150,21 @@ export default function Contact() {
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Full Name *</label>
-                      <input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="John Doe" style={{ width: '100%', padding: '0.85rem 1rem' }} required />
+                      <input type="text" value={formData.name} onChange={e => {setFormData({...formData, name: e.target.value}); if(errors.name) setErrors({...errors, name: ''});}} placeholder="John Doe" style={{ width: '100%', padding: '0.85rem 1rem', border: `1px solid ${errors.name ? 'red' : '#e5e7eb'}`, borderRadius: '0.5rem' }} />
+                      {errors.name && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.name}</span>}
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Email Address *</label>
-                      <input type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} placeholder="john@example.com" style={{ width: '100%', padding: '0.85rem 1rem' }} required />
+                      <input type="text" value={formData.email} onChange={e => {setFormData({...formData, email: e.target.value}); if(errors.email) setErrors({...errors, email: ''});}} placeholder="john@example.com" style={{ width: '100%', padding: '0.85rem 1rem', border: `1px solid ${errors.email ? 'red' : '#e5e7eb'}`, borderRadius: '0.5rem' }} />
+                      {errors.email && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.email}</span>}
                     </div>
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Phone Number *</label>
-                      <input type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} placeholder="+91 98765 43210" style={{ width: '100%', padding: '0.85rem 1rem' }} required />
+                      <input type="tel" value={formData.phone} onChange={e => {setFormData({...formData, phone: e.target.value}); if(errors.phone) setErrors({...errors, phone: ''});}} placeholder="+91 98765 43210" style={{ width: '100%', padding: '0.85rem 1rem', border: `1px solid ${errors.phone ? 'red' : '#e5e7eb'}`, borderRadius: '0.5rem' }} />
+                      {errors.phone && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.phone}</span>}
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Inquiry Type</label>
@@ -154,7 +179,8 @@ export default function Contact() {
 
                   <div>
                     <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#374151', marginBottom: '0.5rem' }}>Your Message *</label>
-                    <textarea value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} rows="5" placeholder="How can we help you today?" style={{ width: '100%', padding: '1rem', resize: 'vertical' }} required></textarea>
+                    <textarea value={formData.message} onChange={e => {setFormData({...formData, message: e.target.value}); if(errors.message) setErrors({...errors, message: ''});}} rows="5" placeholder="How can we help you today?" style={{ width: '100%', padding: '1rem', resize: 'vertical', border: `1px solid ${errors.message ? 'red' : '#e5e7eb'}`, borderRadius: '0.5rem' }}></textarea>
+                    {errors.message && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{errors.message}</span>}
                   </div>
 
                   <button type="submit" className="btn btn-primary" style={{ padding: '1rem 2rem', fontSize: '1rem', alignSelf: 'flex-start' }}>
